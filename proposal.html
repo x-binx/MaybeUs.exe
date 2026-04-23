@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>relationship.upgrade.exe</title>
+
+<style>
+body {
+  background: black;
+  color: #00ff9c;
+  font-family: monospace;
+  padding: 20px;
+}
+
+#terminal {
+  max-width: 650px;
+  margin: auto;
+  white-space: pre-line;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 15px;
+  background: #00ff9c;
+  border: none;
+  cursor: pointer;
+  font-family: monospace;
+}
+
+.no {
+  background: red;
+  position: relative;
+}
+
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(2px,-2px); }
+  50% { transform: translate(-2px,2px); }
+  75% { transform: translate(2px,2px); }
+  100% { transform: translate(0,0); }
+}
+
+.glitch {
+  animation: shake 0.2s infinite;
+}
+</style>
+</head>
+
+<body>
+
+<div id="terminal"></div>
+
+<script>
+const terminal = document.getElementById("terminal");
+
+let step = 0;
+let answers = [];
+
+const questions = [
+{
+q: `>>> print("What do I think when I see your name?")`,
+options: ["nothing", "stress", "smile 🙂"],
+correct: "smile 🙂"
+},
+{
+q: `>>> print("Best notification type?")`,
+options: ["group chat", "spam", "your message 💬"],
+correct: "your message 💬"
+},
+{
+q: `>>> print("Time feels like when I'm talking to you?")`,
+options: ["normal", "slow", "too fast ⏳🙂"],
+correct: "too fast ⏳🙂"
+},
+{
+q: `>>> print("System note: something changed in your routine...")`,
+options: ["ignore it", "continue as usual", "let it stay 🙂"],
+correct: "let it stay 🙂"
+}
+];
+
+function type(text, cb) {
+  let i = 0;
+  let interval = setInterval(() => {
+    terminal.innerHTML += text[i];
+    i++;
+    if (i >= text.length) {
+      clearInterval(interval);
+      terminal.innerHTML += "\n";
+      if (cb) cb();
+    }
+  }, 25);
+}
+
+function showOptions(q) {
+  q.options.forEach(opt => {
+    let btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.onclick = () => answer(opt);
+    terminal.appendChild(btn);
+  });
+}
+
+function next() {
+  if (step < questions.length) {
+    type(questions[step].q + "\n", () => {
+      showOptions(questions[step]);
+    });
+  } else {
+    upgradeScene();
+  }
+}
+
+function answer(opt) {
+  if (opt === questions[step].correct) {
+    answers.push(opt);
+  }
+  step++;
+  terminal.innerHTML = "";
+  next();
+}
+
+/* ⚡ UPGRADE SCENE (nadi vibe + loading) */
+function upgradeScene() {
+
+  type(">>> checking compatibility...\n", () => {
+    type(">>> analyzing patterns...\n", () => {
+      type(">>> loading next level...\n\n", () => {
+
+        setTimeout(() => {
+
+          type("new module detected: relationship.upgrade.exe\n\n", () => {
+
+            type("Do you want to upgrade this level?\n\n", () => {
+
+              let yes = document.createElement("button");
+              yes.innerText = "Yes, upgrade 😄";
+              yes.onclick = finalScene;
+
+              let no = document.createElement("button");
+              no.innerText = "Not sure 🤔";
+              no.className = "no";
+
+              no.onmouseover = () => {
+                no.style.position = "absolute";
+                no.style.left = Math.random() * 400 + "px";
+                no.style.top = Math.random() * 400 + "px";
+              };
+
+              terminal.appendChild(yes);
+              terminal.appendChild(no);
+
+            });
+
+          });
+
+        }, 800);
+
+      });
+    });
+  });
+
+}
+
+/* 💥 FINAL SCENE (glitch + rizz + proposal) */
+function finalScene() {
+
+  terminal.innerHTML = "";
+
+  type(">>> upgrading system...\n", () => {
+    type(">>> compiling feelings...\n", () => {
+
+      // fake glitch
+      setTimeout(() => {
+        document.body.classList.add("glitch");
+
+type("\n>>> SYSTEM INSTABILITY DETECTED...\n", () => {
+
+  setTimeout(() => {
+    document.body.classList.remove("glitch");
+
+    type("\nERROR 404: normal quiz not found\n", () => {
+
+      setTimeout(() => {
+
+        type("\n>>> restoring system...\n", () => {
+
+          type("\n...\n", () => {
+
+            type("I think this stopped being just a quiz a while ago...\n\n", () => {
+
+              type("So...\n\n", () => {
+
+                type("Can I make this part of my life official?\n\n", () => {
+
+                  type("Will you be my girlfriend? 🙂\n\n", () => {
+
+                    let yes = document.createElement("button");
+                    yes.innerText = "Yes 😄";
+                    yes.onclick = accepted;
+
+                    let no = document.createElement("button");
+                    no.innerText = "No 🙃";
+                    no.className = "no";
+
+                    no.onmouseover = () => {
+                      no.style.position = "absolute";
+                      no.style.left = Math.random() * 400 + "px";
+                      no.style.top = Math.random() * 400 + "px";
+                    };
+
+                    terminal.appendChild(yes);
+                    terminal.appendChild(no);
+
+                  });
+
+                });
+
+              });
+
+            });
+
+          });
+
+        });
+
+      }, 600);
+
+    });
+
+  }, 600);
+
+});
+      }, 700);
+
+    });
+  });
+
+}
+
+function accepted() {
+  terminal.innerHTML = "";
+  type(">>> status: accepted ✔️\n", () => {
+    type(">>> relationship initialized successfully 😄\n", () => {
+      type(">>> gg... that worked better than expected 💻❤️\n");
+    });
+  });
+}
+
+/* start */
+type(">>> launching quiz.exe\n\n", () => {
+  next();
+});
+
+</script>
+
+</body>
+</html>
