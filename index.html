@@ -93,8 +93,6 @@ body {
   padding: 12px 30px;
   cursor: pointer;
   border-radius: 4px;
-  position: fixed;
-  transition: top 0.15s, left 0.15s;
 }
 .cursor-blink {
   display: inline-block;
@@ -395,23 +393,17 @@ async function main() {
     no.className = 'no-btn';
     no.textContent = 'no.exe';
 
-    function moveNo() {
-      const maxX = window.innerWidth - 120;
-      const maxY = window.innerHeight - 60;
-      no.style.left = Math.max(10, Math.random() * maxX) + 'px';
-      no.style.top  = Math.max(10, Math.random() * maxY) + 'px';
+    function moveNo(e) {
+      if (e) e.preventDefault();
+      const maxX = window.innerWidth - 130;
+      const maxY = window.innerHeight - 70;
+      no.style.position = 'fixed';
+      no.style.left = Math.max(10, Math.floor(Math.random() * maxX)) + 'px';
+      no.style.top  = Math.max(10, Math.floor(Math.random() * maxY)) + 'px';
     }
 
-    // place it initially so fixed position works
-    setTimeout(() => {
-      const rect = no.getBoundingClientRect();
-      no.style.left = rect.left + 'px';
-      no.style.top  = rect.top  + 'px';
-    }, 50);
-
-    no.addEventListener('mouseover', moveNo);
-    no.addEventListener('touchstart', (e) => { e.preventDefault(); moveNo(); }, { passive: false });
-    no.addEventListener('click', moveNo);
+    no.addEventListener('click',      moveNo);
+    no.addEventListener('touchstart', moveNo, { passive: false });
 
     row.appendChild(yes);
     row.appendChild(no);
