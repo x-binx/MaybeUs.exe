@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>relationship.upgrade.exe</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,8 +40,8 @@ body {
   border: 1px solid #2a2a2a;
   border-top: none;
   border-radius: 0 0 12px 12px;
-  padding: 22px 26px 30px;
-  font-size: 13px;
+  padding: 18px 18px 30px;
+  font-size: 15px;
   line-height: 2;
   min-height: 420px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.9);
@@ -58,8 +59,8 @@ body {
   border: 1px solid #00ff9c;
   color: #00ff9c;
   font-family: 'Courier New', monospace;
-  font-size: 13px;
-  padding: 7px 18px;
+  font-size: 15px;
+  padding: 10px 20px;
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s;
@@ -75,8 +76,8 @@ body {
   border: 1px solid #f48fb1;
   color: #f48fb1;
   font-family: 'Courier New', monospace;
-  font-size: 14px;
-  padding: 8px 26px;
+  font-size: 16px;
+  padding: 12px 30px;
   cursor: pointer;
   border-radius: 4px;
   font-weight: bold;
@@ -88,11 +89,12 @@ body {
   border: 1px solid #444;
   color: #444;
   font-family: 'Courier New', monospace;
-  font-size: 14px;
-  padding: 8px 26px;
+  font-size: 16px;
+  padding: 12px 30px;
   cursor: pointer;
   border-radius: 4px;
-  transition: transform 0.12s;
+  position: fixed;
+  transition: top 0.15s, left 0.15s;
 }
 .cursor-blink {
   display: inline-block;
@@ -392,10 +394,24 @@ async function main() {
     const no = document.createElement('button');
     no.className = 'no-btn';
     no.textContent = 'no.exe';
-    no.addEventListener('mouseover', () => {
-      no.style.transform = `translate(${(Math.random()-0.5)*320}px, ${(Math.random()-0.5)*140}px)`;
-    });
-    no.addEventListener('click', () => { no.textContent = 'nice try 😄'; });
+
+    function moveNo() {
+      const maxX = window.innerWidth - 120;
+      const maxY = window.innerHeight - 60;
+      no.style.left = Math.max(10, Math.random() * maxX) + 'px';
+      no.style.top  = Math.max(10, Math.random() * maxY) + 'px';
+    }
+
+    // place it initially so fixed position works
+    setTimeout(() => {
+      const rect = no.getBoundingClientRect();
+      no.style.left = rect.left + 'px';
+      no.style.top  = rect.top  + 'px';
+    }, 50);
+
+    no.addEventListener('mouseover', moveNo);
+    no.addEventListener('touchstart', (e) => { e.preventDefault(); moveNo(); }, { passive: false });
+    no.addEventListener('click', moveNo);
 
     row.appendChild(yes);
     row.appendChild(no);
